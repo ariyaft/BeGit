@@ -9,6 +9,7 @@ pub mod staging;
 pub mod stashes;
 pub mod submodules;
 pub mod tags;
+pub mod terminal;
 pub mod worktrees;
 
 pub use branches::*;
@@ -22,4 +23,5 @@ pub use staging::*;
 pub use stashes::*;
 pub use submodules::*;
 pub use tags::*;
+pub use terminal::*;
 pub use worktrees::*;

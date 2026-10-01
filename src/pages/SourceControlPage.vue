@@ -9,6 +9,7 @@ import ActionIcon from '../assets/icons/action.svg?component';
 import LeftSidebar from '../components/source-control/LeftSidebar.vue';
 import RightSidebar from '../components/source-control/RightSidebar.vue';
 import CommitGraph from '../components/source-control/CommitGraph.vue';
+import GitTerminalPanel from '../components/source-control/GitTerminalPanel.vue';
 import DiffViewer from '../components/Common/DiffViewer.vue';
 import ConfirmDropStashModal from '../components/source-control/ConfirmDropStashModal.vue';
 import ConfirmDeleteBranchModal from '../components/source-control/ConfirmDeleteBranchModal.vue';
@@ -137,6 +138,7 @@ const filterAuthor = ref('');
 const filterDateRange = ref<'all' | 'today' | '7d' | '30d' | '90d' | '180d' | '365d'>('all');
 const filterBranch = ref('all');
 const searchInputRef = ref<HTMLInputElement | null>(null);
+const terminalOpen = ref(false);
 
 const isFilterActive = computed(() => {
   return Boolean(
@@ -781,6 +783,15 @@ onUnmounted(() => {
             <TimelineIcon viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2" fill="none" />
             <span class="btn-label">Rebase</span>
           </button>
+          <button
+            class="repo-action-btn"
+            :class="{ active: terminalOpen }"
+            @click="terminalOpen = !terminalOpen"
+            title="Show Git terminal below the commit list"
+          >
+            <ActionIcon viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2" fill="none" />
+            <span class="btn-label">Terminal</span>
+          </button>
           <button 
             v-if="project?.operationState?.has_conflicts || (project?.uncommittedChanges?.unstaged_files || []).some((f: any) => f.has_conflicts)" 
             class="repo-action-btn btn-conflict-alert" 
@@ -947,6 +958,14 @@ onUnmounted(() => {
         @select-commit="forwardSelectCommit"
         @contextmenu-commit="openCommitContextMenu"
         @branch-drop="handleBranchDrop"
+      />
+
+      <GitTerminalPanel
+        v-if="terminalOpen"
+        :repository-path="project?.path || null"
+        @close="terminalOpen = false"
+        @refresh="emit('refresh', false)"
+        @pending="emit('pending', $event)"
       />
 
       <DiffViewer

@@ -73,6 +73,11 @@ pub struct GitProfile {
 }
 
 #[derive(Serialize, Clone, Debug)]
+pub struct TerminalCommandResult {
+    pub output: String,
+}
+
+#[derive(Serialize, Clone, Debug)]
 pub struct Contributor {
     pub name: String,
     pub email: String,

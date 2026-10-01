@@ -76,6 +76,7 @@ pub fn run() {
             create_tag, push_tag, push_all_tags, delete_tag,
             get_worktrees, add_worktree, remove_worktree, lock_worktree, unlock_worktree, prune_worktrees,
             get_submodules, init_submodules, update_submodules, sync_submodules, add_submodule,
+            run_git_terminal_command,
             get_rebase_commits, start_interactive_rebase, get_rebase_status, continue_rebase, skip_rebase, abort_rebase,
             apply_patch,
             get_conflicted_files, resolve_conflict_file, get_repository_operation_state, abort_repository_operation, continue_repository_operation,
